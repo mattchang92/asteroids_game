@@ -5,14 +5,52 @@
   width: 50px;
   transition: width 2s,top 0.5s, left 0.5s, transform 0.2s;
 }
-#instructions {
+
+#info {
   margin-top: 100px;
-  font-family: avenir;
+}
+.instructions {
+  margin: auto;
   font-size: 40px;
+  width: 800px;
 }
 #speed-counter {
   position: fixed;
   top: 0;
   left: 0;
+}
+
+body {
+  color: white;
+  background: url('starfield.jpg');
+  background-size: cover;
   font-family: avenir;
+}
+
+.bullet {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background-color: white;
+  border-radius: 5px;
+  z-index: -2;
+  visibility: hidden;
+
+}
+
+#ammo-counter {
+  position: fixed;
+  top: 50px;
+}
+
+.shot {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border-radius: 10px;
+  background-color: white;
+}
+
+.firing {
+  visibility: visible;
 }

@@ -8,10 +8,18 @@
 
   <body>
     <h2 id="speed-counter">Your current speed is: <span id="speed"></span></h2>
-    <div style="text-align: center">
-      <h1 id="instructions">Press W + S to speedup/slowdown and A + D to turn</h1>
+    <h3 id="ammo-counter">Shots remaining
+      <div id="shot1" class="shot"></div>
+      <div id="shot2" class="shot"></div>
+      <div id="shot3" class="shot"></div></h3>
+    <div id="info" style="text-align: center">
+      <h1 class="instructions">Press W + S to speedup/slowdown</h1>
+      <h1 class="instructions">Press A + D to turn</h1>
+      <h1 class="instructions">Press SPACE to shoot and R to reload</h1>
     </div>
-
+    <div id="bullet1" class="bullet loaded"></div>
+    <div id="bullet2" class="bullet loaded"></div>
+    <div id="bullet3" class="bullet loaded"></div>
     <img id="rocket" class="small" src="rocket.png"/>
 
   </body>
