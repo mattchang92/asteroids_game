@@ -1,0 +1,18 @@
+#rocket {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 50px;
+  transition: width 2s,top 0.5s, left 0.5s, transform 0.2s;
+}
+#instructions {
+  margin-top: 100px;
+  font-family: avenir;
+  font-size: 40px;
+}
+#speed-counter {
+  position: fixed;
+  top: 0;
+  left: 0;
+  font-family: avenir;
+}
