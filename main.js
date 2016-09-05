@@ -25,7 +25,7 @@ $(document).ready(function(){
     shipLeft = parseInt($('#rocket').css('left'));
     shipTop = parseInt($('#rocket').css('top'));
     if (key === "W") {
-      speed += 10;
+      speed += 200;
     } else if(key === "S") {
       speed -= 20;
     } else if(key === "R") {
@@ -83,11 +83,11 @@ $(document).ready(function(){
 
     if (parseInt($('.firing').css('top')) < 0) {
       $('*').removeClass('firing');
-    } else if (parseInt($('.firing').css('top')) > $(window).height()-10){
+    } else if (parseInt($('.firing').css('top')) > $(window).height()-50){
       $('*').removeClass('firing');
     } else if (parseInt($('.firing').css('left')) < 0){
       $('*').removeClass('firing');
-    } else if (parseInt($('.firing').css('left')) > $(window).width()){
+    } else if (parseInt($('.firing').css('left')) > $(window).width()-50){
       $('*').removeClass('firing');
     }
 
@@ -98,7 +98,7 @@ $(document).ready(function(){
     $('.firing').css("top", bulletTop - (50 * currentY));
     $('.firing').css("left", bulletLeft + (50 * currentX));
     // Speeding warning
-    if (speed > 250) {
+    if (speed > 1000) {
       $('#speed').html("Whoa slow down there");
     } else {
       $('#speed').html(speed);
