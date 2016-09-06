@@ -4,15 +4,16 @@
   bottom: 0;
   width: 50px;
   transition: width 2s,top 0.5s, left 0.5s, transform 0.2s;
+  /*z-index: -10;*/
 }
-#instructions {
+.instructions {
   margin-top: 100px;
   font-family: avenir;
   font-size: 40px;
   color: white;
   position: fixed;
   top: 100px;
-  left: 200px;
+  left: 100px;
 }
 #speed-counter {
   position: fixed;
@@ -31,4 +32,8 @@ canvas {
   border: 1px solid black;
   background: url('starfield.jpg');
   background-size: cover;
+}
+
+body {
+  overflow: hidden;
 }
