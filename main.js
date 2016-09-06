@@ -1,14 +1,85 @@
 $(document).ready(function(){
 
-  // Fadeout instructions after 7 seconds
-  setTimeout(function(){
-    $('.instructions').fadeOut(2000);
-  },5000)
+
+  $(document).on('keydown', function(event) {
+    var start = String.fromCharCode(event.which);
+    if (start === "K") {
+
+
+  // Define an Asteroid constructor
+  function Asteroid(radius, speedX, speedY) {
+      this.radius = radius;
+      this.x = Math.random()* parseInt($(window).width());
+      this.y = Math.random()*parseInt($(window).height());
+      this.speedX = speedX;
+      this.speedY = speedY;
+  }
+
+  // Move asteroid
+  Asteroid.prototype.move = function() {
+    this.y += this.speedX;
+    this.x += this.speedY;
+    if(this.y > $(window).height()) {
+      this.y = 0;
+    } else if (this.y < 0) {
+      this.y = $(window).height();
+    } else if (this.x > $(window).width()) {
+      this.x = 0;
+    } else if (this.x < 0) {
+      this.x = $(window).width();
+    }
+
+  }
+
+  // Draw asteroid
+  Asteroid.prototype.draw = function() {
+      ctx.clearRect(0, 0, $(window).width(), $(window).height());
+      var picture = document.getElementById('asteroid');
+      var pattern = ctx.createPattern(picture,'repeat');
+      ctx.beginPath();
+      ctx.fillStyle = pattern;
+      ctx.arc(this.x, this.y, this.radius, 0, 2*Math.PI, false);
+      ctx.closePath();
+      ctx.fill();
+  }
+  // Define a Bullet constructor
+  function Bullet(radius, speed) {
+      this.radius = radius;
+      this.x = parseInt($('#rocket').css('left'))+20;
+      this.y = parseInt($('#rocket').css('top'))+20;
+      this.speedX = speed * parseFloat($('#rocket').css('transform').split(",")[1]);
+      this.speedY = speed * parseFloat($('#rocket').css('transform').split(",")[3]);
+  }
+
+  // Bullet move
+  Bullet.prototype.move = function() {
+    this.x += this.speedX;
+    this.y -= this.speedY;
+  }
+
+  // Draw bullet
+  Bullet.prototype.draw = function() {
+      ctx.beginPath();
+      ctx.fillStyle = "white";
+      ctx.arc(this.x, this.y, this.radius, 0, 2*Math.PI, false);
+      ctx.closePath();
+      ctx.fill();
+  }
+
+
+  var direction = [1,-1];
+  var asteroids = [];
+  var bullets = [];
+
+  // var createAsteroids = setInterval(function(){
+    asteroids.push(new Asteroid(Math.random()*15 + 15, Math.random()* 5 * direction[Math.round(Math.random())], Math.random()* 5 * direction[Math.round(Math.random())]));
+  // }, 2000 );
 
   // Defining variables globally
   var ammo = ["bullet1","bullet2","bullet3"];
   var degree = 0;
   var speed = 0;
+  var cooldown = false;
   $('#rocket').css('transform','matrix(1, 0, 0, 1, 0, 0)')
   var shipLeft = parseInt($('#rocket').css('left'));
   var shipTop = parseInt($('#rocket').css('top'));
@@ -16,45 +87,44 @@ $(document).ready(function(){
   var bulletTop = parseInt($('.firing').css('top'));
   var speedFractionX = parseFloat($('#rocket').css('transform').split(",")[1])
   var speedFractionY = parseFloat($('#rocket').css('transform').split(",")[3])
-  var currentX;
-  var currentY;
+
+  var rocket = new Image();
+  rocket.src = "rocket.png";
+
+
+  // Fadeout instructions after 7 seconds
+  setTimeout(function(){
+    $('.instructions').fadeOut(2000);
+  },5000)
+
+
 
   // Defining keyboard inputs
   $(document).on('keydown', function(event) {
     var key = String.fromCharCode(event.which);
     shipLeft = parseInt($('#rocket').css('left'));
     shipTop = parseInt($('#rocket').css('top'));
+    console.log(event.which);
     if (key === "W") {
-      speed += 200;
+      speed += 20;
     } else if(key === "S") {
       speed -= 20;
     } else if(key === "R") {
       $('.bullet').addClass('loaded');
       ammo = ["bullet1","bullet2","bullet3"];
     } else if(key === "A") {
-      degree -= 10;
+      degree -= 15;
       $('#rocket').css("transform", 'rotateZ(' + degree + 'deg)');
     } else if(key === "D") {
-      degree += 10;
+      degree += 15;
       $('#rocket').css("transform", 'rotateZ(' + degree + 'deg)');
     }
-    if (event.which == 32) {
-      if (ammo.length > 0) {
-        var firing = ammo.shift();
-        $("#" + firing).addClass('firing');
-        $("#" + firing).removeClass('loaded');
-        currentX = speedFractionX;
-        currentY = speedFractionY;
-        var shootingNow = setInterval(function(){
-          if (parseInt($(".firing").css('top') < 0)) {
-            $(".firing").addClass('loaded');
-            $(this).removeClass('firing');
-            setTimeout(function(){
-              clearInterval(shootingNow);
-            },100);
-          }
-        },50);
-      }
+    if (event.which == 32 && cooldown === false) {
+      bullets.push(new Bullet(10,50));
+      cooldown = true;
+      setTimeout(function(){
+        cooldown = false;
+      }, 100)
     }
   });
 
@@ -72,12 +142,12 @@ $(document).ready(function(){
     // Stops the rocket at the edges of the screen (eg. Rocket is outside bounds of screen AND facing outside)
     if ((parseInt($('#rocket').css('left')) < 0) && speedFractionX < 0)  {
       speedFractionX = 0;
-    } else if ((parseInt($('#rocket').css('left')) > ($(window).width()-50)) && speedFractionX > 0) {
+    } else if ((parseInt($('#rocket').css('left')) > ($(window).width()-87)) && speedFractionX > 0) {
       speedFractionX = 0;
     }
     if ((parseInt($('#rocket').css('top')) < 0) && speedFractionY > 0)  {
       speedFractionY = 0;
-    } else if ((parseInt($('#rocket').css('top')) > ($(window).height()-50)) && speedFractionY < 0) {
+    } else if ((parseInt($('#rocket').css('top')) > ($(window).height()-87)) && speedFractionY < 0) {
       speedFractionY = 0;
     }
 
@@ -104,22 +174,42 @@ $(document).ready(function(){
       $('#speed').html(speed);
     }
 
-    $('.loaded').css('top',shipTop+30);
-    $('.loaded').css('left',shipLeft+20);
-
-    if (ammo.length === 0) {
-      $('.shot').css("background-color",'black');
-    } else if (ammo.length === 1) {
-      $('.shot').css("background-color",'black');
-      $('#shot1').css('background-color','white');
-    } else if (ammo.length === 2) {
-      $('.shot').css("background-color",'white');
-      $('#shot3').css('background-color','black');
-    } else if (ammo.length === 3) {
-      $('.shot').css("background-color",'white');
+    for(var i = 0; i < asteroids.length; i++) {
+        asteroids[i].move();
+        asteroids[i].draw();
     }
 
+    for(var i = 0; i < bullets.length; i++) {
+      bullets[i].move();
+      bullets[i].draw();
+    }
+
+    $( document ).on( "mousemove", function( event ) {
+      var mouseShipDiffX = event.pageX - (shipLeft + 20);
+      var mouseShipDiffY = event.pageY - (shipTop + 20);
+      var angle = Math.atan(mouseShipDiffX/mouseShipDiffY) * -60;
+      if (mouseShipDiffY > 0) { angle += 180};
+      $('#rocket').css("transform", 'rotateZ(' + angle + 'deg)');
+    });
 
   },50)
+}
+  })
+
+
+  var canvas = document.getElementById("game-canvas"),
+      ctx = canvas.getContext("2d");
+
+  var W = $(window).width(),
+      H = $(window).height();
+
+  canvas.height = H; canvas.width = W;
+
+
+  $('#game-canvas').attr('width',$(window).width());
+  $('#game-canvas').attr('height',$(window).height());
+
+
+
 
 });

@@ -1,30 +1,44 @@
 #rocket {
   position: absolute;
-  left: 0;
+  left: 50px;
   bottom: 0;
   width: 50px;
   transition: width 2s,top 0.5s, left 0.5s, transform 0.2s;
+  /*z-index: -10;*/
 }
 
-#info {
+.instructions {
   margin-top: 100px;
 }
 .instructions {
   margin: auto;
   font-size: 40px;
-  width: 800px;
+  color: white;
+  position: fixed;
+  top: 100px;
+  left: 100px;
 }
 #speed-counter {
   position: fixed;
   top: 0;
-  left: 0;
+  left: 50;
+  font-family: avenir;
+  color: white;
+}
+
+/*body {
+  background: url('starfield.jpg');
+  background-size: cover;
+}*/
+
+canvas {
+  border: 1px solid black;
+  background: url('starfield.jpg');
+  background-size: cover;
 }
 
 body {
-  color: white;
-  background: url('starfield.jpg');
-  background-size: cover;
-  font-family: avenir;
+  overflow: hidden;
 }
 
 .bullet {
