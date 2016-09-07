@@ -16,7 +16,7 @@
   position: fixed;
   top: 100px;
   left: 100px;
-  margin-right: 100px;
+  margin-right: 100px
 }
 #speed-counter {
   position: fixed;
@@ -32,10 +32,10 @@
   visibility: hidden;
 }
 
-/*body {
-  background: url('starfield.jpg');
-  background-size: cover;
-}*/
+#level-display {
+  top: 0;
+  position: fixed;
+}
 
 canvas {
   border: 1px solid black;
