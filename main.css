@@ -3,8 +3,7 @@
   left: 50px;
   bottom: 0;
   width: 50px;
-  transition: width 2s,top 0.5s, left 0.5s, transform 0.2s;
-  /*z-index: -10;*/
+  transition: top 0.5s, left 0.5s;
 }
 
 .instructions {
@@ -17,13 +16,20 @@
   position: fixed;
   top: 100px;
   left: 100px;
+  margin-right: 100px;
 }
 #speed-counter {
   position: fixed;
   top: 0;
   left: 50;
-  font-family: avenir;
-  color: white;
+
+}
+
+#warning {
+  position: fixed;
+  top: 50;
+  left: 50;
+  visibility: hidden;
 }
 
 /*body {
@@ -39,6 +45,8 @@ canvas {
 
 body {
   overflow: hidden;
+  font-family: avenir;
+  color: white;
 }
 
 .bullet {
